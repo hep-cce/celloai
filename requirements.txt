@@ -1,0 +1,51 @@
+--extra-index-url https://download.pytorch.org/whl/cu126
+torch==2.8.0 
+torchvision==0.23.0 
+torchaudio==2.8.0 
+
+# Natural Language Processing
+langchain==0.3.23
+langchain-chroma==0.2.2 
+langchain-community==0.3.21
+langchain-core==0.3.51
+langchain-huggingface==0.1.2 
+langchain-text-splitters==0.3.8 
+langdetect==1.0.9 
+langsmith==0.3.24 
+chromadb==0.5.0
+pdfminer.six==20231228
+sentence-transformers==2.7.0
+faiss-cpu==1.9.0
+huggingface_hub==0.34.3
+transformers==4.57.1
+# autoawq; sys_platform != 'darwin'
+protobuf==3.20.2; sys_platform != 'darwin'
+protobuf==3.20.2; sys_platform == 'darwin' and platform_machine != 'arm64'
+protobuf==3.20.3; sys_platform == 'darwin' and platform_machine == 'arm64'
+# auto-gptq
+docx2txt==0.8
+unstructured==0.16.5
+unstructured[pdf]
+markdown==3.8
+marker-pdf==1.10.1
+
+# Utilities
+urllib3==1.26.6
+accelerate==1.1.1
+bitsandbytes ; sys_platform != 'win32'
+bitsandbytes-windows ; sys_platform == 'win32'
+click==8.3.0
+flask==3.0.3
+requests==2.32.3
+tree-sitter==0.20.4
+tree-sitter-languages==1.10.2
+pydot==3.0.4
+
+# Streamlit related
+streamlit==1.40.0
+Streamlit-extras
+
+# Excel File Manipulation
+openpyxl==3.1.5
+
+llama-cpp-python==0.3.16
