@@ -54,7 +54,7 @@ Running doxygen to create callgraphs
 python scripts/run_doxygen.py
 ```
 
-#### On BNL CSI Dahlia the above environment is available
+#### If you have access to Dahlia at CSD, BNL the above environment is available at
 ```
 conda activate /data/cello-ai-101525/
 ```
