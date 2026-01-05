@@ -1,6 +1,34 @@
 ## CCE LLM-based Code Documentation, Generation and Optimization AI Assistant
 
-### Setting up Cello-AI
+### DISCLAIMER: Experimental Code
+
+This repository contains experimental code under active development. It is 
+intended for research/testing purposes only. We provide no guarantees of 
+reliability or stability, and the code structure may change significantly 
+at any time.
+
+
+### Overview
+
+CelloAI is a locally hosted coding assistant that leverages
+Large Language Models with Retrieval-Augmented Generation to
+support High Energy Physics code documentation and generation.
+This local deployment ensures data privacy, eliminates recurring
+costs, and provides access to large context windows without external
+dependencies. CelloAI addresses code documentation and
+code generation through specialized components. For code documentation,
+the assistant provides: (a) Doxygen style comment
+generation by retrieving relevant information from text sources, (b)
+File-level summary generation, and (c) An interactive chatbot for
+code comprehension queries. For code generation, CelloAI employs
+syntax-aware chunking that preserve syntactic boundaries during
+embedding thus improving retrieval accuracy in large codebases.
+The system integrates callgraph knowledge to maintain dependency
+awareness during code modifications and provides AI-generated
+suggestions for performance optimization and accurate refactoring.
+
+
+### Quickstart Guide: Setting up Cello-AI
 
 Create a conda environment 
 ```
@@ -65,5 +93,9 @@ Please see the [CelloAI arxiv](https://arxiv.org/abs/2508.16713):
 
 ### Licensing
 
-This project uses classes and routines from two software (PromtEngineer/localGPT, fynnfluegge/doc-comments-ai) with compatible, permissive MIT licenses. Their licenses are available at 'LICENSES/LICENSE1.MIT' and 'LICENSES/LICENSE2.MIT'. All new contributions are licensed under BSD 3-Clause License available in 'LICENSE' file.
+This project uses classes and routines from two software (PromtEngineer/localGPT, 
+fynnfluegge/doc-comments-ai) with compatible, permissive MIT licenses. Their 
+licenses are available at 'LICENSES/LICENSE1.MIT' and 'LICENSES/LICENSE2.MIT'. 
+All new contributions are licensed under BSD 3-Clause License available in 
+'LICENSE' file.
 
