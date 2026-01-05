@@ -62,3 +62,8 @@ Please see the [CelloAI arxiv](https://arxiv.org/abs/2508.16713):
   year={2025}
 }
 ```
+
+### Licensing
+
+This project uses classes and routines from two software (PromtEngineer/localGPT, fynnfluegge/doc-comments-ai) with compatible, permissive MIT licenses. Their licenses are available at 'LICENSES/LICENSE1.MIT' and 'LICENSES/LICENSE2.MIT'. All new contributions are licensed under BSD 3-Clause License available in 'LICENSE' file.
+

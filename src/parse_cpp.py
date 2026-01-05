@@ -1,3 +1,10 @@
+# This file was originally part of fynnfluegge/doc-comments-ai and has been modified.
+#
+# The original code is licensed under the MIT License, a copy of which
+# is available in the LICENSES/ directory.
+#
+# All modifications are licensed under the BSD-3-Clause License.
+
 import tree_sitter
 from tree_sitter_languages import get_language, get_parser
 
