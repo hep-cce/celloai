@@ -42,16 +42,11 @@ Installating the dependencies
 pip install -r requirements.txt
 ```
 
-### Adding Callgraphs into the database
+### Adding Callgraphs into the database (skip this step if you don't need callgraphs)
 Installating doxygen, graphviz
 ```
 conda install -c conda-forge doxygen
 conda install -c conda-forge graphviz
-```
-
-Running doxygen to create callgraphs
-```
-python scripts/run_doxygen.py
 ```
 
 #### If you have access to Dahlia at CSD, BNL the above environment is available at
@@ -65,15 +60,20 @@ conda activate /data/cello-ai-101525/
 
 2. Ingest files into database
 ```
-python localGPT/ingest.py
+python scripts/ingest_celloai.py
 ```
 
-3. Select an LLM in src/config.py; see config_backup.py for examples
+3. Running doxygen to create callgraphs
+```
+python scripts/run_doxygen.py
+```
+
+4. Select an LLM in src/config.py; see config_backup.py for examples
 ```
 python scripts/run_celloai.py --model_type=llama3 --temperature=0.01
 ```
 
-4. Running the setup using the selected LLM or LlamaCpp server at BNL
+5. Running the setup using the selected LLM or LlamaCpp server at BNL
 ```
 python scripts/run_chatbot.py --model_type=llama3 --temperature=0.01
 python scripts/run_chatbot.py --llamacpp_server
