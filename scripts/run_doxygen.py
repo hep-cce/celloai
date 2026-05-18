@@ -75,23 +75,8 @@ if __name__ == "__main__":
     merged_graph, stats, png_path = merge_dot_files_enhanced(output_dir=doxygen_html_path)
 
     json_path = os.path.join(doxygen_html_path,"merged_graph.json")
-  
-    # Load function relationships
-    graph = load_function_graph(json_path)
-    function_name = "CaloGpuGeneral_cu::simulate_A"
-    relationship_text = get_relationship_text(function_name, graph)
-    print(function_name, relationship_text)
-
-    function_name1= "simulate_A"
-    relationship_text1= get_relationship_text(function_name1, graph)
-    print(function_name1, relationship_text1)
-
-    function_name2= "testHello"
-    relationship_text2= get_relationship_text(function_name2, graph)
-    print(function_name2, relationship_text2)
-
-
-    #import json
-    #with open(json_path, "r") as f:
-    #    data = json.load(f)
-    #walk_json(data) 
+ 
+    import json
+    with open(json_path, "r") as f:
+        data = json.load(f)
+    walk_json(data) 

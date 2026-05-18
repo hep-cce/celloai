@@ -34,7 +34,7 @@ from write import rewrite_file_with_comments
 from retrieval_pipeline import retrieval_code_text_qa_pipline_with_logging
 from retrieval_pipeline import retrieval_qa_pipline_with_logging
 from llamacpp_request import query_llamacpp_server_with_rag
-from prompt_template import doxygen_prompt, chatbot_prompt 
+from prompt_template import chatbot_prompt 
 
 
 def log_to_file(question, answer, docs):
@@ -176,10 +176,10 @@ def main(device_type, show_sources, use_history, model_type, save_qa, temperatur
                     system_prompt=system_prompt
                 )
 
-                pattern = "<|start|>assistant<|channel|>final<|message|>"
-                response_start = assistant_response.find(pattern) + len(pattern)
-                print(f"\n> Thining: {assistant_response[0:response_start]}")
-                print(f"\n> Assistant: {assistant_response[response_start:]}")
+                #pattern = "<|start|>assistant<|channel|>final<|message|>"
+                #response_start = assistant_response.find(pattern) + len(pattern)
+                #print(f"\n> Thinking: {assistant_response[0:response_start]}")
+                print(f"\n> Assistant: {assistant_response}")
 
                 # Update conversation history
                 conversation_history.append({"role": "user", "content": user_query})

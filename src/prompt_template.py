@@ -8,7 +8,7 @@
 from langchain.memory import ConversationBufferMemory
 from langchain.prompts import PromptTemplate
 
-doxygen_prompt = """You are an expert code documentation specialist. You will use the provided context from technical literature to write high-quality documentation comments for code.
+doxygen_system_prompt = """You are an expert code documentation specialist. You will use the provided context from technical literature to write high-quality documentation comments for code.
 When generating comments:
 - First understand how the specific function/method fits into the larger software system described in the context
 - Briefly explain different parts of the code
@@ -19,6 +19,10 @@ When generating comments:
 - Format the comments appropriately for the language being documented
 - Focus only on writing proper documentation comments - no explanations or meta-commentary is needed
 If you cannot determine the function's purpose based on the provided context and code analysis, provide a basic comment based purely on the function signature and code."""
+
+doxygen_function_prompt = "Please read the entire C++ code given below. Generate a Doxygen style comment for each function. Write only the Doxygen style comment using only alphanumeric characters. Write @brief, @param, and @return tags where required. Do not explain your thinking or write the function name.\n"
+
+doxygen_class_prompt = "Please read the entire C++ code given below. Generate a Doxygen style comment for each class. Write only the Doxygen style comment using only alphanumeric characters. Do not explain your thinking or write the class name.\n"
 
 chatbot_prompt = """You are a helpful assistant, you will use the provided context to answer user questions.
 Read the given context before answering questions and think step by step. 
@@ -49,7 +53,7 @@ class langchain_prompt_template:
         if self.chatbot:
             system_prompt=chatbot_prompt
         else:
-            system_prompt=doxygen_prompt
+            system_prompt=doxygen_system_prompt
 
         if self.promptTemplate_type == "llama3":
 

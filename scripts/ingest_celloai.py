@@ -1,10 +1,3 @@
-# This file was originally part of PromtEngineer/localGPT and has been modified.
-#
-# The original code is licensed under the MIT License, a copy of which
-# is available in the LICENSES/ directory.
-#
-# All modifications are licensed under the BSD-3-Clause License.
-
 import sys
 import os
 import logging
@@ -102,7 +95,7 @@ def load_documents(source_dir: str) -> list[Document]:
     paths = []
     for root, _, files in os.walk(source_dir):
         for file_name in files:
-            #print("Importing: " + file_name)
+            print("Importing: " + file_name)
             file_extension = os.path.splitext(file_name)[1]
             source_file_path = os.path.join(root, file_name)
             if file_extension in TEXT_DOCUMENT_MAP.keys() or file_extension in CPP_EXTENSIONS:
@@ -251,37 +244,38 @@ def main(device_type):
     paths = collect_paths_text_documents(SOURCE_DIRECTORY)
 
     new_paths = convert_pdf_to_md(paths)
-    
-    text_documents = load_text_documents(new_paths)
-    #for doc in text_documents:
-    #    print(f"\n\n{doc}\n\n")
-    #    print(f"*_*_*_*_*_*_*_*\n")
+   
+    if new_paths:
+         text_documents = load_text_documents(new_paths)
+         #for doc in text_documents:
+         #    print(f"\n\n{doc}\n\n")
+         #    print(f"*_*_*_*_*_*_*_*\n")
 
-    # Load documents and split in chunks
-    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
-    texts = text_splitter.split_documents(text_documents)
-    logging.info(f"Loaded {len(text_documents)} documents from {SOURCE_DIRECTORY}")
-    logging.info(f"Split into {len(texts)} chunks of text")
+         # Load documents and split in chunks
+         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+         texts = text_splitter.split_documents(text_documents)
+         logging.info(f"Loaded {len(text_documents)} documents from {SOURCE_DIRECTORY}")
+         logging.info(f"Split into {len(texts)} chunks of text")
 
-    #for text in texts:
-    #    print("TXT ", text.page_content)
-    
-    logging.info(f"Loaded embeddings from {TEXT_EMBEDDING_MODEL_NAME}")
+         #for text in texts:
+         #    print("TXT ", text.page_content)
+         
+         logging.info(f"Loaded embeddings from {TEXT_EMBEDDING_MODEL_NAME}")
 
-    db = Chroma.from_documents(
-        texts,
-        embedding=text_embeddings,
-        collection_name="text_collection",
-        persist_directory=PERSIST_DIRECTORY,
-        client_settings=CHROMA_SETTINGS,
-    )
+         db = Chroma.from_documents(
+             texts,
+             embedding=text_embeddings,
+             collection_name="text_collection",
+             persist_directory=PERSIST_DIRECTORY,
+             client_settings=CHROMA_SETTINGS,
+         )
 
 
 
     documents = load_documents(SOURCE_DIRECTORY)
     cpp_documents = collect_cpp(documents)
    
-    #print("CODE", cpp_documents)
+    print("CODE", cpp_documents)
 
     for doc in cpp_documents:
         #print(doc)

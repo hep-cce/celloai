@@ -93,12 +93,29 @@ class CelloRetriever(BaseRetriever):
                             callgraph_text += f'  \n{relationships["name"]}\n'
                             callgraph_text += f"  calls\n"
                             for called_func in relationships["calls"]:
-                                callgraph_text += f"  - ```{called_func}```\n"
-                                callgraph_patterns.append(called_func)
+                                cf = called_func.split("::")[-1]
+                                if len(cf) < 3:
+                                    cf = called_func
+                                if len(cf) > 3:
+                                    callgraph_text += f"  - ```{cf}```\n"
+                                    callgraph_patterns.append(cf)
+                                # if grand callee is enabled
+                                #all2_relationships = get_function_relationships(called_func, graph)
+                                #for rships in all2_relationships:
+                                #    for c2_func in rships["calls"]:
+                                #        cf = c2_func.split("::")[-1]
+                                #        if len(cf) < 3:
+                                #            cf = c2_func
+                                #        callgraph_patterns.append(cf)
+                                #        callgraph_text += f"      - ```{cf}```\n"
                             callgraph_text += f"  and is called by\n"
                             for caller in relationships["called_by"]:
-                                callgraph_text += f"  - ```{caller}```\n"
-                                callgraph_patterns.append(caller)
+                                cf = caller.split("::")[-1]
+                                if len(cf) < 3:
+                                    cf = caller
+                                if len(cf) > 3:
+                                    callgraph_text += f"  - ```{cf}```\n"
+                                    callgraph_patterns.append(cf)
             except:
                 print(f"Merged callgraph related error. Check existence at {json_path}")
 
@@ -110,7 +127,7 @@ class CelloRetriever(BaseRetriever):
         # Collect patterns within ``` for exact matching
         patterns = self.collect_patterns_for_matching(query)
         patterns = list(set(patterns)) #deduplicate
-        print("\n *** Matching for patterns: ", patterns)
+        print(f"\n *** Matching for {len(patterns)} patterns: ", patterns)
 
         # Look in top n docs
         # this returns all documents ranked according to semantic match 
@@ -196,9 +213,9 @@ def retrieve_docs_enhance_prompt_from_cello(
     dbget_text = db_text.get() 
 
     file_names = [meta["source"] for meta in dbget_code["metadatas"] if "source" in meta]
-    print(PERSIST_DIRECTORY, "NUM CODE DOCS", len(file_names))
+    print(PERSIST_DIRECTORY, "NUM CODE DOCS in DB", len(file_names), flush=True)
     file_names = [meta["source"] for meta in dbget_text["metadatas"] if "source" in meta]
-    print(PERSIST_DIRECTORY, "NUM TEXT DOCS", len(file_names))
+    print(PERSIST_DIRECTORY, "NUM TEXT DOCS in DB", len(file_names), flush=True)
  
     # Retrieve documents along with their similarity scores
     retriever_code = db_code.as_retriever()  
@@ -208,11 +225,29 @@ def retrieve_docs_enhance_prompt_from_cello(
     num_code_ret = NUM_CODE
     num_text_ret = NUM_TEXT
     retriever_comb = CelloRetriever(retriever_code, retriever_text, num_code_ret, num_text_ret)
-    retrieved_docs = retriever_comb._get_relevant_documents(query)
 
     # Collect patterns within ``` for exact matching
     patterns = retriever_comb.collect_patterns_for_matching(query)
-    
+  
+    # Add callgraph lineage of matched patterns
+    patterns = list(set(patterns)) #deduplicate
+    callgraph_patterns, callgraph_text = retriever_comb.add_callgraph_lineage(patterns)
+
+    #LEVEL = 2
+    #level2_patterns = []
+    #if LEVEL == 2:
+    #    for patt in patterns:
+    #        callgraph_patterns2, callgraph_text2 = retriever_comb.add_callgraph_lineage(patt)
+    #        callgraph_text += callgraph_text2
+    #        level2_patterns += callgraph_patterns2
+    #patterns = list(set(patterns+level2_patterns)) #deduplicate
+
+    # Add callers and callees to pattern-match code reranking
+    if ENHANCE_PROMPT_WITH_LINEAGE:
+        query = query + callgraph_text
+
+    retrieved_docs = retriever_comb._get_relevant_documents(query)
+   
     #Only taking patterns fromi the last QA
     if history:
         pulled_history = history[-2]
@@ -226,14 +261,6 @@ def retrieve_docs_enhance_prompt_from_cello(
         patterns.extend(hist_patterns)
         print("HISTORY2=", hist_patterns) 
     
-    # Add callgraph lineage of matched patterns
-    patterns = list(set(patterns)) #deduplicate
-    callgraph_patterns, callgraph_text = retriever_comb.add_callgraph_lineage(patterns)
-
-    # Add callers and callees to pattern-match code reranking
-    if ENHANCE_PROMPT_WITH_LINEAGE:
-        query = query + callgraph_text
-
     return query, retrieved_docs
 
 
@@ -273,7 +300,7 @@ def retrieval_qa_pipline_with_logging(device_type, use_history, promptTemplate_t
     else:
         embeddings = get_text_embeddings(device_type)
 
-    logging.info(f"Loaded embeddings from {EMBEDDING_MODEL_NAME}")
+    logging.info(f"Loaded embeddings from {TEXT_EMBEDDING_MODEL_NAME}")
 
     # load the vectorstore
     db = Chroma(persist_directory=PERSIST_DIRECTORY, embedding_function=embeddings, client_settings=CHROMA_SETTINGS)

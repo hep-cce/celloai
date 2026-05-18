@@ -12,7 +12,7 @@ import requests  # type: ignore
 celloai_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../src"))
 sys.path.insert(0, celloai_path)
 from retrieval_pipeline import retrieve_docs_enhance_prompt_from_cello
-from prompt_template import doxygen_prompt, chatbot_prompt 
+from prompt_template import chatbot_prompt 
 
 # -----------------------------------------------------------------------------
 # -----------------------------------------------------------------------------
@@ -89,7 +89,7 @@ Context:
 Question: {user_query}
 """
     #print(f"\n--- Augmented Prompt ---\n{prompt_text}")
-    print(f"\n--- Augmented Prompt ---\n{user_query}")
+    #print(f"\n--- Augmented Prompt ---\n{user_query}")
 
     messages = [{"role": "system", "content": system_prompt}]
     messages.extend(history)
@@ -100,7 +100,7 @@ Question: {user_query}
     host = "localhost"
     port = 8000
     max_tokens = 32768
-    temperature = 0.1
+    temperature = 0.5
     no_stream = True # Using non-streaming for simplicity in this example
     
     url = f"http://{host}:{port}/v1/chat/completions"
