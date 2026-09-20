@@ -1,0 +1,43 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "brain_vision": {
+      "type": "local",
+      "command": [
+	"uv",
+	"run",
+        "python",
+        "server_vision_llm.py"
+      ],
+      "cwd": ".",
+      "enabled": true,
+      "environment": {
+        "BNL_API_KEY": "{env:BNL_API_KEY}"
+      }
+    },
+    "celloai_callgraph": {
+      "type": "local",
+      "command": [
+	"uv",
+	"run",
+        "python",
+        "server_callgraph.py"
+      ],
+      "cwd": ".",
+      "enabled": true,
+      "timeout": 30000
+    },
+    "celloai_retriever": {
+      "type": "local",
+      "command": [
+	"uv",
+	"run",
+        "python",
+        "server_cello_retriever.py"
+      ],
+      "cwd": ".",
+      "enabled": true,
+      "timeout": 30000
+    }
+  }
+}

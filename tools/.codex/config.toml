@@ -1,0 +1,27 @@
+[mcp_servers.brain_vision]
+command = "uv"
+args = ["run", "python", "server_vision_llm.py"]
+cwd = "."
+env_vars = ["BRAIN_API_KEY"]
+enabled = true
+startup_timeout_sec = 30
+tool_timeout_sec = 120
+
+[mcp_servers.celloai_callgraph]
+command = "uv"
+args = ["run", "python", "server_callgraph.py"]
+cwd = "."
+enabled = true
+startup_timeout_sec = 30
+tool_timeout_sec = 120
+
+[mcp_servers.celloai_retriever]
+command = "uv"
+args = ["run", "python", "server_cello_retriever.py"]
+cwd = "."
+enabled = true
+startup_timeout_sec = 30
+tool_timeout_sec = 120
+
+
+

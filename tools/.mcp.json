@@ -1,0 +1,42 @@
+{
+  "mcpServers": {
+    "brain_vision": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        ".",
+        "run",
+        "--frozen",
+        "python",
+        "server_vision_llm.py"
+      ]
+    },
+
+    "celloai_callgraph": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        ".",
+        "run",
+        "--frozen",
+        "python",
+        "server_callgraph.py"
+      ]
+    },
+
+    "celloai_retriever": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "--directory",
+        ".",
+        "run",
+        "--frozen",
+        "python",
+        "server_cello_retriever.py"
+      ]
+    }
+  }
+}
